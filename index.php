@@ -39,7 +39,6 @@ $ip = $_SERVER['REMOTE_ADDR'];
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
 $now = new DateTime();
 
-// Ensure login_attempts table exists
 $stmt = $pdo->prepare("CREATE TABLE IF NOT EXISTS login_attempts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ip VARCHAR(45),
@@ -204,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
   <body>
     <div class="background-slideshow"></div>
     <div class="logo">
-      <img src="/assets/OPENPAGINGSERVER-768x576-DARKMODE.png" alt="Open Paging Server logo" />
+      <img src="/assets/OPENPAGINGSERVER-768x576-DARKMODE.png" alt="Server logo" />
     </div>
     <div class="center-container">
         
@@ -284,4 +283,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
       }
     </script>
   </body>
+
 </html>

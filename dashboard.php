@@ -27,6 +27,15 @@ $username = $_SESSION['username'] ?? 'User';
 
 $stmt = $pdo->query("SELECT path, webpath, webroles, webinterface, webname, webicon FROM enabledmodules WHERE status = 1 ORDER BY path ASC");
 $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$product_name = 'Open Paging Server';
+$favicon = '';
+
+$stmt_settings = $pdo->prepare("SELECT parameter, value FROM systemsettings WHERE parameter IN ('product_name','favicon')");
+$stmt_settings->execute();
+$settings = $stmt_settings->fetchAll(PDO::FETCH_KEY_PAIR);
+$product_name = $settings['product_name'] ?? $product_name;
+$favicon = $settings['favicon'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +43,13 @@ $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dashboard - Open Paging Server</title>
+<title>Dashboard - <?= htmlspecialchars($product_name) ?></title>
+<?php if (!empty($favicon)): ?>
+<link rel="icon" href="<?= htmlspecialchars($favicon) ?>" type="image/x-icon">
+<?php endif; ?>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <style>
+<style>
     body, html { margin:0; padding:0; font-family:"Roboto",sans-serif; font-weight:300; background-color:#FFF; height:100%; }
     strong { font-weight:700; }
     #sidebar { width:220px; background-color:#1976D2; color:#FFF; height:100vh; position:fixed; top:0; left:0; display:flex; flex-direction:column; box-shadow:2px 0 8px rgba(0,0,0,0.2); transition:transform 0.3s ease; z-index:1200; }
@@ -76,16 +88,16 @@ $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
     .protocol-warning { background-color: rgba(255, 235, 59, 0.15); border: 1px solid #fbc02d; color: #856404; padding: 12px 20px; margin-bottom: 20px; border-radius: 8px; display: flex; align-items: center; gap: 12px; font-size: 0.95em; }
     .protocol-warning i { font-size: 1.2em; }
     @media (prefers-color-scheme: dark) { .protocol-warning { background-color: rgba(255, 235, 59, 0.05); color: #fff176; border-color: #fbc02d; } }
-  </style>
+</style>
 </head>
 <body>
 <div id="mobile-header">
     <span class="hamburger" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></span>
-    <h2>Open Paging Server</h2>
+    <h2><?= htmlspecialchars($product_name) ?></h2>
 </div>
 <div id="overlay" onclick="closeSidebar()"></div>
 <div id="sidebar">
-    <h2>Open Paging Server</h2>
+    <h2><?= htmlspecialchars($product_name) ?></h2>
     <a href="/dashboard.php" class="active"><i class="fa-solid fa-house"></i> Dashboard</a>
     <a href="/messages.php"><i class="fa-solid fa-message"></i> Messages</a>
     <a href="/history.php"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
@@ -143,4 +155,3 @@ function logout() {
 </script>
 </body>
 </html>
-

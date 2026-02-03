@@ -11,6 +11,11 @@ $login_error = '';
 $banner_enabled = false;
 $banner_title = '';
 $banner_message = '';
+$product_name = 'Open Paging Server';
+$logo_light = '';
+$logo_dark = '';
+$favicon = '';
+$separate_dark_logo = false;
 
 try {
     require_once 'config.php';
@@ -18,13 +23,18 @@ try {
         throw new Exception('PDO not set in config.php');
     }
 
-    $stmt_settings = $pdo->prepare("SELECT parameter, value FROM systemsettings WHERE parameter IN ('login_banner_enabled', 'login_banner_title', 'login_banner_message')");
+    $stmt_settings = $pdo->prepare("SELECT parameter, value FROM systemsettings WHERE parameter IN ('login_banner_enabled', 'login_banner_title', 'login_banner_message', 'product_name', 'separate_dark_logo', 'logo_light', 'logo_dark', 'favicon')");
     $stmt_settings->execute();
     $settings = $stmt_settings->fetchAll(PDO::FETCH_KEY_PAIR);
 
     $banner_enabled = ($settings['login_banner_enabled'] ?? '0') === '1';
     $banner_title = $settings['login_banner_title'] ?? '';
     $banner_message = $settings['login_banner_message'] ?? '';
+    $product_name = $settings['product_name'] ?? 'Open Paging Server';
+    $separate_dark_logo = ($settings['separate_dark_logo'] ?? '0') === '1';
+    $logo_light = $settings['logo_light'] ?? '';
+    $logo_dark = $settings['logo_dark'] ?? '';
+    $favicon = $settings['favicon'] ?? '';
 
 } catch (Throwable $e) {
     $login_error = 'Initialization failed: ' . $e->getMessage();
@@ -149,8 +159,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Open Paging Server</title>
-    <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
+    <title>Login - <?= htmlspecialchars($product_name) ?></title>
+    <?php if (!empty($favicon)): ?>
+    <link rel="icon" href="<?= htmlspecialchars($favicon) ?>" type="image/x-icon">
+    <?php endif; ?>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/src/sha256.min.js"></script>
@@ -162,9 +174,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
       .center-container { display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; position: relative; z-index: 1; }
       .logo { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 2; width: 830px; height: 97px; display: flex; justify-content: center; align-items: center; }
       .logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+      
+      .logo-light { display: block; }
+      .logo-dark { display: none; }
+
       @media (max-width: 768px) { .logo { width: 80%; height: auto; top: 10px; padding: 10px; } .logo img { width: 100%; height: auto; } }
       
-      /* Login Banner Styles */
       .login-banner { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 6px; padding: 15px; margin-bottom: 15px; width: 100%; max-width: 300px; box-sizing: border-box; text-align: left; color: #e65100; box-shadow: 0 2px 4px rgba(0,0,0,0.05); animation: fadeInPage 1s ease-in-out; }
       .login-banner h3 { margin: 0 0 5px 0; font-size: 15px; font-weight: 700; text-transform: uppercase; }
       .login-banner p { margin: 0; font-size: 14px; line-height: 1.4; }
@@ -197,13 +212,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
         .input-field label { color: #ccc; }
         .login-box button { background-color: #90caf9; color: #121212; }
         .error { color: #ffcdd2; }
+        <?php if ($separate_dark_logo): ?>
+        .logo-light { display: none; }
+        .logo-dark { display: block; }
+        <?php endif; ?>
       }
     </style>
   </head>
   <body>
     <div class="background-slideshow"></div>
     <div class="logo">
-      <img src="/assets/OPENPAGINGSERVER-768x576-DARKMODE.png" alt="Server logo" />
+      <?php if ($separate_dark_logo): ?>
+        <img src="<?= htmlspecialchars($logo_light) ?>" alt="<?= htmlspecialchars($product_name) ?> logo" class="logo-light" />
+        <img src="<?= htmlspecialchars($logo_dark) ?>" alt="<?= htmlspecialchars($product_name) ?> logo" class="logo-dark" />
+      <?php else: ?>
+        <img src="<?= htmlspecialchars($logo_light) ?>" alt="<?= htmlspecialchars($product_name) ?> logo" />
+      <?php endif; ?>
     </div>
     <div class="center-container">
         
@@ -283,5 +307,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
       }
     </script>
   </body>
-
 </html>

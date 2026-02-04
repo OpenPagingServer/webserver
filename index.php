@@ -1,10 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-ini_set('log_errors', 1);
-ini_set('error_log', '/tmp/php-debug.log');
-error_reporting(E_ALL);
-
 session_start();
 
 $login_error = '';
@@ -308,3 +302,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
     </script>
   </body>
 </html>
+

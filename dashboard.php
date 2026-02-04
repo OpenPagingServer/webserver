@@ -133,7 +133,7 @@ $favicon = $settings['favicon'] ?? '';
       </div>
     <?php endif; ?>
     <h1>Hey there, <span id="extension-name"><?php echo htmlspecialchars($username); ?></span></h1>
-    <p>There are no active messages.</p>
+    <p>Thank you for trying the Open Paging Server Beta. In the future, this page will be used to show you currently active messages, and the ability to quickly trigger certain actions.</p>
 </div>
 
 <script>
@@ -155,3 +155,4 @@ function logout() {
 </script>
 </body>
 </html>
+

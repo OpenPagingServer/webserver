@@ -399,7 +399,7 @@ input:checked + .slider:before { background-color: #BB86FC; }
 
     <div id="sip" class="tab-content">
         <div class="info-card login-settings">
-            <p>Open Paging Server uses Session Initiation Protocol (SIP) to integrate with PBXes and phone systems, connect to consoles, and to ATAs. Open Paging Server's SIP stack is handled by Chan_PJSIP in Asterisk.</p>
+            <p>Open Paging Server uses Session Initiation Protocol (SIP) to integrate with PBXes and phone systems, connect to consoles, and to ATAs.</p>
             
             <form id="sipSettingsForm">
 
@@ -480,7 +480,9 @@ input:checked + .slider:before { background-color: #BB86FC; }
             <source srcset="/assets/OPENPAGINGSERVER-768x576-DARKMODE.png" media="(prefers-color-scheme: dark)">
             <img src="/assets/OPENPAGINGSERVER-768x576-LIGHTMODE.png" class="server-image">
         </picture>
-
+        <p>Open Paging Sever 0.1.0</p>
+        <p>Open Paging Server is provided "as is" without any warranties, express or implied, including but not limited to fitness for a particular purpose or non-infringement.</p>
+        <p>Open Paging Server installs and uses several open-source software from their official sources. These components are subject to their own licenses.</p>
         <div class="info-card">
             <h2>Hardware & OS</h2>
             <div class="info-row"><span class="info-label">Hostname</span><span><?php echo htmlspecialchars($sysInfo['hostname']); ?></span></div>

@@ -47,10 +47,9 @@ $favicon = $settings['favicon'] ?? '';
 <?php if (!empty($favicon)): ?>
 <link rel="icon" href="<?= htmlspecialchars($favicon) ?>" type="image/x-icon">
 <?php endif; ?>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 <style>
-    body, html { margin:0; padding:0; font-family:"Roboto",sans-serif; font-weight:300; background-color:#FFF; height:100%; }
+    body, html { margin:0; padding:0; font-family:"Arial",sans-serif; font-weight:300; background-color:#FFF; height:100%; }
     strong { font-weight:700; }
     #sidebar { width:220px; background-color:#1976D2; color:#FFF; height:100vh; position:fixed; top:0; left:0; display:flex; flex-direction:column; box-shadow:2px 0 8px rgba(0,0,0,0.2); transition:transform 0.3s ease; z-index:1200; }
     @media (max-width:767px){ #sidebar{ transform:translateX(-100%); } #sidebar.open{ transform:translateX(0); } }
@@ -155,4 +154,5 @@ function logout() {
 </script>
 </body>
 </html>
+
 
